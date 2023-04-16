@@ -1,7 +1,11 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { selectSort, setSort, SortPropertyEnum } from '../redux/slices/filterSlice'
+import {
+  selectSort,
+  setSort,
+  SortPropertyEnum,
+} from '../redux/slices/filterSlice'
 
 type SortItem = {
   name: string
@@ -29,6 +33,13 @@ const SortPopup: React.FC = memo(() => {
     setOpen(false)
   }
 
+  const [isActive, setIsActive] = useState(false)
+
+  const onClickSort = () => {
+   setOpen(!open)
+   setIsActive(!isActive)
+  }
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       let path =
@@ -47,6 +58,7 @@ const SortPopup: React.FC = memo(() => {
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
+          className={isActive ? 'rotated' : ''}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -59,11 +71,11 @@ const SortPopup: React.FC = memo(() => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sort.name}</span>
+        <span onClick={() => onClickSort()}>{sort.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
-          <ul>
+          <ul onClick={() => setIsActive(!isActive)}>
             {list.map((obj, index) => (
               <li
                 key={index}
