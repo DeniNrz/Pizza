@@ -44,7 +44,10 @@ const SortPopup: React.FC = memo(() => {
     const handleClickOutside = (event: MouseEvent) => {
       let path =
         sortRef.current && event.composedPath().includes(sortRef.current)
-      if (!path) setOpen(false)
+      if (!path) {
+         setOpen(false)
+         setIsActive(false)
+      }
     }
 
     document.body.addEventListener('click', handleClickOutside)
